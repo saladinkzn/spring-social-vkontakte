@@ -49,6 +49,7 @@ public class VKontakteTemplate extends AbstractOAuth2ApiBinding implements VKont
     private IGroupsOperations groupsOperations;
     private INewsFeedOperations newsFeedOperations;
     private IUtilsOperations utilsOperations;
+    private IPhotoOperations photoOperations;
 
     private ObjectMapper objectMapper;
 
@@ -104,6 +105,7 @@ public class VKontakteTemplate extends AbstractOAuth2ApiBinding implements VKont
         groupsOperations = new GroupsTemplate(getRestTemplate(), accessToken, objectMapper, isAuthorized());
         newsFeedOperations = new NewsFeedTemplate(getRestTemplate(), accessToken, objectMapper, isAuthorized());
         utilsOperations = new UtilsTemplate(getRestTemplate(), accessToken, objectMapper, isAuthorized());
+        photoOperations = new PhotoTemplate(getRestTemplate(), accessToken, objectMapper, isAuthorized());
     }
 
     public IUsersOperations usersOperations() {
@@ -140,5 +142,10 @@ public class VKontakteTemplate extends AbstractOAuth2ApiBinding implements VKont
 
     public IUtilsOperations utilsOperations() {
         return utilsOperations;
+    }
+
+    @Override
+    public IPhotoOperations photoOperations() {
+        return photoOperations;
     }
 }

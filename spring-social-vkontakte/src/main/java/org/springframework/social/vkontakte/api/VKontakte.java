@@ -86,4 +86,9 @@ public interface VKontakte extends ApiBinding {
      * @return {@link IUtilsOperations}
      */
     public IUtilsOperations utilsOperations();
+
+    /**
+     * API for performing operations with photos.
+     */
+    IPhotoOperations photoOperations();
 }
