@@ -1,0 +1,30 @@
+{
+  "response": {
+    "count": 2,
+    "items": [
+      {
+        "id": 225103872,
+        "thumb_id": 0,
+        "owner_id": 66748,
+        "title": "Instagram",
+        "description": "",
+        "created": 1449861436,
+        "updated": 1449861436,
+        "size": 0,
+        "thumb_is_last": 1
+      },
+      {
+        "id": 210742268,
+        "thumb_id": 394620123,
+        "owner_id": 66748,
+        "title": "Snapster",
+        "description": "",
+        "created": 1422645191,
+        "updated": 1450773656,
+        "size": 153,
+        "thumb_is_last": 1,
+        "type": "snapster"
+      }
+    ]
+  }
+}
