@@ -1,4 +1,4 @@
-package org.springframework.social.vkontakte.api.impl;
+package org.springframework.social.vkontakte.api.impl.photo;
 
 import org.springframework.social.vkontakte.api.vkenums.AlbumType;
 import org.springframework.social.vkontakte.api.vkenums.SortOrder;
@@ -6,7 +6,7 @@ import org.springframework.social.vkontakte.api.vkenums.SortOrder;
 /**
  * @author sala
  */
-public class PhotoGetRequest {
+public class PhotosGetRequest {
     private final Long ownerId;
     private final String albumId;
     private final String photoIds;
@@ -18,7 +18,7 @@ public class PhotoGetRequest {
     private final Integer offset;
     private final Integer count;
 
-    public PhotoGetRequest(Long ownerId, String albumId, String photoIds, Boolean rev, Boolean extended, String feedType, String feed, Boolean photoSizes, Integer offset, Integer count) {
+    public PhotosGetRequest(Long ownerId, String albumId, String photoIds, Boolean rev, Boolean extended, String feedType, String feed, Boolean photoSizes, Integer offset, Integer count) {
         this.ownerId = ownerId;
         this.albumId = albumId;
         this.photoIds = photoIds;
@@ -99,8 +99,8 @@ public class PhotoGetRequest {
             this.albumId = albumType.getInternalValue();
         }
 
-        public PhotoGetRequest build() {
-            return new PhotoGetRequest(ownerId, albumId, photoIds, rev, extended, feedType, feed, photoSizes, offset, count);
+        public PhotosGetRequest build() {
+            return new PhotosGetRequest(ownerId, albumId, photoIds, rev, extended, feedType, feed, photoSizes, offset, count);
         }
 
         public PhotoGetRequestBuilder setOwnerId(Long ownerId) {

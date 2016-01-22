@@ -151,4 +151,16 @@ class AbstractVKontakteOperations {
         checkForError(response);
         return objectMapper.convertValue(response.getResponse(), itemClass);
     }
+
+    public static void putIfNotNull(Properties properties, String key, Object value) {
+        if(value != null) {
+            properties.put(key, value);
+        }
+    }
+
+    public static void putIfNotNull(Properties properties, String key, Boolean value) {
+        if(value != null) {
+            properties.put(key, value ? 1 : 0);
+        }
+    }
 }

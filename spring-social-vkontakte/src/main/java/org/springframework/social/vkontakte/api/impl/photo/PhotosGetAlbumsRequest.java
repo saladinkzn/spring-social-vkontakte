@@ -1,11 +1,11 @@
-package org.springframework.social.vkontakte.api;
+package org.springframework.social.vkontakte.api.impl.photo;
 
 import java.util.List;
 
 /**
  *
  */
-public class AlbumsGetRequest {
+public class PhotosGetAlbumsRequest {
     private Long ownerId;
     private String albumIds;
     private Integer offset;
@@ -24,7 +24,7 @@ public class AlbumsGetRequest {
      * @param needCovers include thumbnails
      * @param photoSizes include photo sizes
      */
-    public AlbumsGetRequest(Long ownerId, String albumIds, Integer offset, Integer count, Boolean needSystem, Boolean needCovers, Boolean photoSizes) {
+    public PhotosGetAlbumsRequest(Long ownerId, String albumIds, Integer offset, Integer count, Boolean needSystem, Boolean needCovers, Boolean photoSizes) {
         this.ownerId = ownerId;
         this.albumIds = albumIds;
         this.offset = offset;
@@ -63,7 +63,7 @@ public class AlbumsGetRequest {
     }
 
     public static Builder builder() {
-        return new AlbumsGetRequest.Builder();
+        return new PhotosGetAlbumsRequest.Builder();
     }
 
     public static class Builder {
@@ -110,7 +110,7 @@ public class AlbumsGetRequest {
             return this;
         }
 
-        public AlbumsGetRequest build() {
+        public PhotosGetAlbumsRequest build() {
             String albumIdsJoined = null;
             if(albumIds != null) {
                 boolean first = true;
@@ -123,7 +123,7 @@ public class AlbumsGetRequest {
                     }
                 }
             }
-            return new AlbumsGetRequest(ownerId, albumIdsJoined, offset, count, needSystem, needCovers, photoSizes);
+            return new PhotosGetAlbumsRequest(ownerId, albumIdsJoined, offset, count, needSystem, needCovers, photoSizes);
         }
     }
 }

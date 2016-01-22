@@ -2,13 +2,15 @@ package org.springframework.social.vkontakte.api.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.social.MissingAuthorizationException;
-import org.springframework.social.vkontakte.api.AlbumsGetRequest;
+import org.springframework.social.vkontakte.api.impl.photo.PhotosGetAlbumsRequest;
 import org.springframework.social.vkontakte.api.ApiVersion;
 import org.springframework.social.vkontakte.api.IPhotoOperations;
 import org.springframework.social.vkontakte.api.VKGenericResponse;
 import org.springframework.social.vkontakte.api.attachment.Album;
 import org.springframework.social.vkontakte.api.attachment.Photo;
 import org.springframework.social.vkontakte.api.impl.json.VKArray;
+import org.springframework.social.vkontakte.api.impl.photo.PhotosGetRequest;
+import org.springframework.social.vkontakte.api.impl.photo.PhotosSearchRequest;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -27,7 +29,7 @@ public class PhotoTemplate extends AbstractVKontakteOperations implements IPhoto
     }
 
     @Override
-    public VKArray<Album> getAlbums(AlbumsGetRequest getAlbumsRequest) throws MissingAuthorizationException {
+    public VKArray<Album> getAlbums(PhotosGetAlbumsRequest getAlbumsRequest) throws MissingAuthorizationException {
         if(getAlbumsRequest.getOwnerId() == null) {
             requireAuthorization();
         }
@@ -58,7 +60,7 @@ public class PhotoTemplate extends AbstractVKontakteOperations implements IPhoto
     }
 
     @Override
-    public VKArray<Photo> get(PhotoGetRequest photoGetRequest) throws MissingAuthorizationException {
+    public VKArray<Photo> get(PhotosGetRequest photoGetRequest) throws MissingAuthorizationException {
         if(photoGetRequest.getOwnerId() == null) {
             requireAuthorization();
         }
@@ -96,7 +98,15 @@ public class PhotoTemplate extends AbstractVKontakteOperations implements IPhoto
 
     @Override
     public int getAlbumsCount(Long ownerId, long groupId) throws MissingAuthorizationException {
-        return 0;
+        if(ownerId == null) {
+            requireAuthorization();
+        }
+        final Properties properties = new Properties();
+        properties.put("group_id", groupId);
+        putIfNotNull(properties, "user_id", ownerId);
+        final URI uri = makeOptionalAuthOperationalURL("photos.getAlbumsCount", properties, ApiVersion.VERSION_5_41);
+        final VKGenericResponse forObject = restTemplate.getForObject(uri, VKGenericResponse.class);
+        return forObject.getResponse().asInt();
     }
 
     @Override
@@ -129,19 +139,17 @@ public class PhotoTemplate extends AbstractVKontakteOperations implements IPhoto
     }
 
     @Override
-    public VKArray<Photo> search(String q, double lat, double longitude, long startTime, long endTime, boolean sort, int offset, int count, int radius) {
+    public VKArray<Photo> search(PhotosSearchRequest photosSearchRequest) {
         Properties properties = new Properties();
-        if(q != null) {
-            properties.put("q", q);
-        }
-        properties.put("lat", lat);
-        properties.put("long", longitude);
-        properties.put("startTime", startTime);
-        properties.put("endTime", endTime);
-        properties.put("sort", sort);
-        properties.put("offset", offset);
-        properties.put("count", count);
-        properties.put("radius", radius);
+        putIfNotNull(properties, "q", photosSearchRequest.getQ());
+        putIfNotNull(properties, "lat", photosSearchRequest.getLat());
+        putIfNotNull(properties, "long", photosSearchRequest.getLongitude());
+        putIfNotNull(properties, "startTime", photosSearchRequest.getStartTime());
+        putIfNotNull(properties, "endTime", photosSearchRequest.getEndTime());
+        putIfNotNull(properties, "sort", photosSearchRequest.getEndTime());
+        putIfNotNull(properties, "offset", photosSearchRequest.getOffset());
+        putIfNotNull(properties, "count", photosSearchRequest.getCount());
+        putIfNotNull(properties, "radius", photosSearchRequest.getRadius());
         final URI uri = makeOptionalAuthOperationalURL("photos.search", properties, ApiVersion.VERSION_5_41);
         final VKGenericResponse response = restTemplate.getForObject(uri, VKGenericResponse.class);
         return deserializeVK50ItemsResponse(response, Photo.class);
